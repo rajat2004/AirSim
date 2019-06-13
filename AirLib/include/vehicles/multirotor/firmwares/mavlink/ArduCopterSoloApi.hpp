@@ -30,7 +30,7 @@ public:
 			//                    const auto& baro_output = getBarometer()->getOutput();
 
 			SensorMessage packet;
-			packet.timestamp = Utils::getTimeSinceEpochNanos() / 1000;
+			packet.timestamp = static_cast<uint64_t>(msr::airlib::ClockFactory::get()->nowNanos() / 1.0E3);
 			packet.latitude = gps_output.gnss.geo_point.latitude;
 			packet.longitude = gps_output.gnss.geo_point.longitude;
 			packet.altitude = gps_output.gnss.geo_point.altitude;
