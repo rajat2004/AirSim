@@ -58,11 +58,14 @@ print(height)
 print(width)
 print(channels)
 
+cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
+
 # Define the codec and create VideoWriter object
 fourcc = cv2.VideoWriter_fourcc('M','P','E','G') # Be sure to use lower case
 out = cv2.VideoWriter("try1.avi", fourcc, 20.0, (width, height), True)
 
 while True:
+    startTime = time.time()
     # because this method returns std::vector<uint8>, msgpack decides to encode it as a string unfortunately.
     rawImage = client.simGetImage("3", cameraTypeMap[cameraType])
     if (rawImage == None):
@@ -72,18 +75,23 @@ while True:
         png = cv2.imdecode(airsim.string_to_uint8_array(rawImage), cv2.IMREAD_UNCHANGED)
         # cv2.putText(png,'FPS ' + str(fps),textOrg, fontFace, fontScale,(255,0,255),thickness)
         # height, width, channels = png.shape
-        cv2.cvtColor(png,cv2.COLOR_RGB2BGR)
-        out.write(png)
-        cv2.imshow("Depth", png)
+        # cv2.cvtColor(png,cv2.COLOR_RGB2BGR)
+        # out.write(png)
+        picName = "images/" + str(startTime) + ".png"
+        cv2.imwrite(picName, png)
+        cv2.imshow("Image", png)
 
-    frameCount  = frameCount  + 1
-    endTime=time.clock()
-    diff = endTime - startTime
-    if (diff > 1):
-        fps = frameCount
-        frameCount = 0
-        startTime = endTime
+    # frameCount  = frameCount  + 1
+    # endTime=time.clock()
+    # diff = endTime - startTime
+    # if (diff > 1):
+    #     fps = frameCount
+    #     frameCount = 0
+    #     startTime = endTime
     
+    endTime = time.time()
+    fps = 1/(endTime - startTime)
+
     key = cv2.waitKey(1) & 0xFF;
     if (key == 27 or key == ord('q') or key == ord('x')):
         break
