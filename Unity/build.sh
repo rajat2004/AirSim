@@ -12,7 +12,7 @@ cd linux-build;
 export CC="clang-5.0"
 export CXX="clang++-5.0"
 
-if [ "$(uname)" == "Darwin" ]; then
+if [ "$(uname)" = "Darwin" ]; then
     CMAKE="$(greadlink -f ../../cmake_build/bin/cmake)"
 else
     CMAKE="$(readlink -f ../../cmake_build/bin/cmake)"
@@ -21,10 +21,10 @@ fi
 "$CMAKE" ../../cmake ../AirLibWrapper/AirsimWrapper;
 make -j`nproc`;
 if [ ! -d "../UnityDemo/Assets/Plugins" ]; then
-	mkdir ../ UnityDemo/Assets/Plugins;
+	mkdir ../UnityDemo/Assets/Plugins;
 fi
 
-if [ "$(uname)" == "Darwin" ]; then
+if [ "$(uname)" = "Darwin" ]; then
 	cp AirsimWrapper.bundle ../UnityDemo/Assets/Plugins;
 else
 	cp libAirsimWrapper.so ../UnityDemo/Assets/Plugins;
