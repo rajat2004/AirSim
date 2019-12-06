@@ -110,7 +110,7 @@ else #linux
     fi
 
     #download cmake - v3.10.2 is not out of box in Ubuntu 16.04
-    if version_less_than_equal_to $gcc_ver $MIN_GCC_VERSION; then
+    if version_less_than_equal_to $cmake_ver $MIN_CMAKE_VERSION; then
         if [[ ! -d "cmake_build/bin" ]]; then
             echo "Downloading cmake..."
             wget https://cmake.org/files/v3.10/cmake-3.10.2.tar.gz \
