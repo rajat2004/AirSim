@@ -48,8 +48,8 @@ script:
       ./setup.sh;
       ./build.sh;
     elif [[ "$TRAVIS_OS_NAME" == "windows" ]]; then
-      .\\build.cmd;
-      .\\Unity\\build.cmd;
+      export PATH=$MSBUILD_PATH:$PATH;
+      cmd.exe /C '"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvarsall.bat" amd64 && build.cmd';
     elif  [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       git submodule update --init --recursive;
       ./setup.sh;
