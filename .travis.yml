@@ -17,10 +17,11 @@ matrix:
       dist: xenial
       
       
-    #- os: windows
-    # dotnet: 2.1.5
-    # services:
-    #   - docker
+    - name: Windows 10
+      os: windows
+      env:
+        - MSBUILD_PATH="c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin"
+        - PATH_FIX="C:\Windows\System32"  # Hack to use correct Find.exe in Travis, see https://github.com/microsoft/AirSim/issues/1753
         
 
     # OS X CMake
@@ -48,8 +49,10 @@ script:
       ./setup.sh;
       ./build.sh;
     elif [[ "$TRAVIS_OS_NAME" == "windows" ]]; then
-      .\\build.cmd;
-      .\\Unity\\build.cmd;
+      export PATH=$MSBUILD_PATH:$PATH_FIX:$PATH;
+      cmd.exe /C '"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvarsall.bat" amd64 &&
+      build.cmd && 
+      cd Unity && build.cmd';
     elif  [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       git submodule update --init --recursive;
       ./setup.sh;
