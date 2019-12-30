@@ -49,7 +49,7 @@ script:
       ./build.sh;
     elif [[ "$TRAVIS_OS_NAME" == "windows" ]]; then
       export PATH=$MSBUILD_PATH:$PATH;
-      cmd.exe /C '"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvarsall.bat" amd64 && build.cmd';
+      cmd.exe /C '"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvarsall.bat" amd64 && cmake --version && build.cmd';
     elif  [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       git submodule update --init --recursive;
       ./setup.sh;
