@@ -17,10 +17,9 @@ matrix:
       dist: xenial
       
       
-    #- os: windows
-    # dotnet: 2.1.5
-    # services:
-    #   - docker
+    - name: Windows 10
+      os: windows
+    
         
 
     # OS X CMake
