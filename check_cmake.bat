@@ -9,7 +9,7 @@ set "cmake_version=    .    "
 
 where /q cmake
 if %ERRORLEVEL% EQU 0 (
-	for /F "tokens=3" %%a in ('cmake --version ^| find "cmake version"') do set cmake_version=%%a
+	for /F "tokens=3" %%a in ('cmake --version | find "cmake version"') do set cmake_version=%%a
 	if "%cmake_version%" == "" (
 	  echo Unable to get version of cmake. >&2
 	  exit /b 2
