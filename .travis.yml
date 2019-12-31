@@ -25,14 +25,13 @@ matrix:
         
 
     # OS X CMake
-    #- os: osx
-    #  sudo: required
-    #  osx_image: xcode8.2
-    #  compiler:
-    #    - clang
-    #  env:
-    #    - TOOL="cmake"
-    #    - DESCRIPTION="OS X build/test via CMake"
+    - name: MacOS
+      os: osx
+      env:
+        - TOOL="cmake"
+        - DESCRIPTION="OS X build/test via CMake"
+        - LLVM_PACKAGE="clang+llvm-5.0.2-x86_64-apple-darwin"
+        - CIINSTALL=yes
 
 
 before_install:
@@ -41,7 +40,9 @@ before_install:
       sudo apt-get -y install git wget unzip;
       sudo apt-get -y install build-essential software-properties-common cmake rsync libboost-all-dev;
     elif [[ "$TRAVIS_OS_NAME" == "osx" ]] && [[ "$TOOL" == "cmake" ]]; then
-      echo "No pre-install osx actions";
+      wget http://releases.llvm.org/5.0.2/${LLVM_PACKAGE}.tar.xz;
+      tar -xf ${LLVM_PACKAGE}.tar.xz;
+      export LLVM_DIR=${TRAVIS_BUILD_DIR}/${LLVM_PACKAGE};
     fi
 
 script:
@@ -54,7 +55,6 @@ script:
       build.cmd && 
       cd Unity && build.cmd';
     elif  [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      git submodule update --init --recursive;
       ./setup.sh;
       ./build.sh;
     fi
