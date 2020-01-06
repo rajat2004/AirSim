@@ -48,7 +48,7 @@ if $gccBuild; then
     build_dir=build_gcc_debug
     # gcc tools
     gcc_ver=$(gcc -dumpfullversion)
-    gcc_path=$(which cmake)
+    gcc_path=$(which gcc)
     if [[ "$gcc_path" == "" ]] ; then
         echo "ERROR: run setup.sh to install a good version of gcc."
         exit 1
