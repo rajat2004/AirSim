@@ -27,7 +27,7 @@ BuildRpc()
 # MavLink source files
 BuildMavLink()
 #AirLib source files
-BuildAirlib()
+BuildAirLib()
 #AirsimWrapper source files
 BuildAirsimWrapper()
 
