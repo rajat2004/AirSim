@@ -58,4 +58,5 @@ script:
     elif  [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       ./setup.sh;
       ./build.sh;
+      cd Unity && ./build.sh;
     fi
