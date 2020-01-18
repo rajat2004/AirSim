@@ -7,17 +7,6 @@ endif()
 find_path(AIRSIM_ROOT NAMES AirSim.sln PATHS ".." "../.." "../../.." "../../../.." "../../../../.." "../../../../../..")
 message(AirSim Root directory: ${AIRSIM_ROOT})
 
-find_package(Boost REQUIRED COMPONENTS filesystem)
-if(Boost_FOUND)
-	MESSAGE("Boost information:") 
-	MESSAGE("  Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}") 
-	MESSAGE("  Boost_LIBRARIES: ${Boost_LIBRARIES}") 
-	MESSAGE("  Boost_LIBRARY_DIRS: ${Boost_LIBRARY_DIRS}") 
-	MESSAGE("  Boost_FILESYSTEM_LIBRARY: ${boost_filesystem_DIR}")
-endif()
-
-include_directories(${Boost_INCLUDE_DIRS}) 
-
 LIST(APPEND CMAKE_MODULE_PATH "${AIRSIM_ROOT}/cmake/cmake-modules")
 LIST(APPEND CMAKE_MODULE_PATH "${RPC_SOURCE_DIR}/cmake")
 LIST(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
@@ -32,6 +21,17 @@ INCLUDE("${CMAKE_CURRENT_SOURCE_DIR}/cmake/airsimwrapper-setup.cmake")
 IncludeEigen()
 
 project(AirsimWrapper VERSION 0)
+
+find_package(Boost REQUIRED COMPONENTS filesystem)
+if(Boost_FOUND)
+    MESSAGE("Boost information:") 
+    MESSAGE("  Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}") 
+    MESSAGE("  Boost_LIBRARIES: ${Boost_LIBRARIES}") 
+    MESSAGE("  Boost_LIBRARY_DIRS: ${Boost_LIBRARY_DIRS}") 
+    MESSAGE("  Boost_FILESYSTEM_LIBRARY: ${boost_filesystem_DIR}")
+endif()
+
+include_directories(${Boost_INCLUDE_DIRS}) 
 
 # RPC includes & source files
 BuildRpc()
@@ -64,7 +64,7 @@ else ()
     )
 endif ()
 
-target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT}  -lstdc++ -lpthread Boost::filesystem)
+target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT}  -lstdc++ -lpthread ${Boost_LIBRARIES})
 
 
 
