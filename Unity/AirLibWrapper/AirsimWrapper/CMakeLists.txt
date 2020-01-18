@@ -14,6 +14,7 @@ if(Boost_FOUND)
 	MESSAGE("  Boost_LIBRARIES: ${Boost_LIBRARIES}") 
 	MESSAGE("  Boost_LIBRARY_DIRS: ${Boost_LIBRARY_DIRS}") 
 	MESSAGE("  Boost_FILESYSTEM_LIBRARY: ${boost_filesystem_DIR}")
+endif()
 
 include_directories(${Boost_INCLUDE_DIRS}) 
 
@@ -63,7 +64,7 @@ else ()
     )
 endif ()
 
-target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT}  -lstdc++ -lpthread ${Boost_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT}  -lstdc++ -lpthread Boost::filesystem)
 
 
 
