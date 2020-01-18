@@ -41,8 +41,8 @@ if [ ! -d "../UnityDemo/Assets/Plugins" ]; then
     mkdir ../UnityDemo/Assets/Plugins
 fi
 
-if [ "$(uname)" = "Darwin" ]; then
-    cp AirsimWrapper.bundle ../UnityDemo/Assets/Plugins
+if [ "$(uname)" == "Darwin" ]; then
+	cp -r AirsimWrapper.bundle ../UnityDemo/Assets/Plugins
 else
     cp libAirsimWrapper.so ../UnityDemo/Assets/Plugins
 fi
