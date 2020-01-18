@@ -16,8 +16,13 @@ fi
 
 
 cd linux-build
-export CC="clang-5.0"
-export CXX="clang++-5.0"
+if [[ -n $CIINSTALL ]]; then # use downloaded binaries on Travis
+    export CC=${LLVM_DIR}/bin/clang
+    export CXX=${LLVM_DIR}/bin/clang++
+else
+    export CC="clang-5.0"
+    export CXX="clang++-5.0"
+fi
 
 # check for local cmake build created by setup.sh
 if [ -d "../../cmake_build" ]; then
