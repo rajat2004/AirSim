@@ -3,6 +3,7 @@
 #include "api/WorldSimApiBase.hpp"
 #include "./SimMode/SimModeBase.h"
 #include "AirSimStructs.hpp"
+#include <memory>
 
 class WorldSimApi : public msr::airlib::WorldSimApiBase
 {
