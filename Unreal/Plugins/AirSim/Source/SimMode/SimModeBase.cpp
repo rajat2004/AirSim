@@ -457,9 +457,7 @@ void ASimModeBase::stopRecording()
 
 void ASimModeBase::startRecording()
 {
-    FRecordingThread::startRecording(getVehicleSimApi()->getImageCapture(),
-        getVehicleSimApi()->getGroundTruthKinematics(), getSettings().recording_setting ,
-        getVehicleSimApi());
+    FRecordingThread::startRecording(getSettings().recording_setting, getApiProvider()->getVehicleSimApis());
 }
 
 bool ASimModeBase::isRecording() const
