@@ -15,6 +15,7 @@ public:
     typedef msr::airlib::Vector3r Vector3r;
     typedef msr::airlib::MeshPositionVertexBuffersResponse MeshPositionVertexBuffersResponse;
 
+    // WorldSimApi(ASimModeBase* simmode, UWeatherLib* weather_lib);
     WorldSimApi(ASimModeBase* simmode);
     virtual ~WorldSimApi() = default;
 
@@ -70,4 +71,5 @@ private:
 private:
     ASimModeBase* simmode_;
     ULevelStreamingDynamic* current_level_;
+    // UWeatherLib* weather_lib_ = nullptr;
 };

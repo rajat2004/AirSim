@@ -258,7 +258,11 @@ bool WorldSimApi::setObjectScale(const std::string& object_name, const Vector3r&
 
 void WorldSimApi::enableWeather(bool enable)
 {
-    UWeatherLib::setWeatherEnabled(simmode_->GetWorld(), enable);
+    UAirBlueprintLib::RunCommandOnGameThread([this, enable]() {
+        UWeatherLib::setWeatherEnabled(simmode_->GetWorld(), enable);
+        // simmode_->getGlobalWeatherLib().setWeatherEnabled(simmode_->GetWorld(), enable);
+    }, true);
+    // UWeatherLib::setWeatherEnabled(simmode_->GetWorld(), enable);
 }
 
 void WorldSimApi::setWeatherParameter(WeatherParameter param, float val)
@@ -266,7 +270,11 @@ void WorldSimApi::setWeatherParameter(WeatherParameter param, float val)
     unsigned char param_n = static_cast<unsigned char>(msr::airlib::Utils::toNumeric<WeatherParameter>(param));
     EWeatherParamScalar param_e = msr::airlib::Utils::toEnum<EWeatherParamScalar>(param_n);
 
-    UWeatherLib::setWeatherParamScalar(simmode_->GetWorld(), param_e, val);
+    UAirBlueprintLib::RunCommandOnGameThread([this, param_e, val]() {
+        UWeatherLib::setWeatherParamScalar(simmode_->GetWorld(), param_e, val);
+        // simmode_->getGlobalWeatherLib().setWeatherParamScalar(simmode_->GetWorld(), param_e, val);
+    }, true);
+    // UWeatherLib::setWeatherParamScalar(simmode_->GetWorld(), param_e, val);
 }
 
 std::unique_ptr<std::vector<std::string>> WorldSimApi::swapTextures(const std::string& tag, int tex_id, int component_id, int material_id)

@@ -41,10 +41,10 @@ class AIRSIM_API UWeatherLib : public UBlueprintFunctionLibrary
 
 	// not sure why, but content folder should be omitted in the path
 	// location of the weather UMaterialParameterCollection, params for rain snow wind etc
-		static const TCHAR* getWeatherParamsObjectPath()
-	{
-		return TEXT("/AirSim/Weather/WeatherFX/WeatherGlobalParams");
-	}
+	// static const TCHAR* getWeatherParamsObjectPath()
+	// {
+	// 	return TEXT("/AirSim/Weather/WeatherFX/WeatherGlobalParams");
+	// }
 	static const FSoftClassPath getWeatherMenuObjectPath()
 	{
 		return FSoftClassPath(TEXT("AActor'/AirSim/Weather/UI/MenuActor.MenuActor_C'"));
@@ -184,4 +184,9 @@ public:
 	// since GetWorld() isn't exposed to bp
 	UFUNCTION(BlueprintCallable, Category = World)
 	static UWorld* actorGetWorld(AActor* Actor);
+
+// private:
+    // assets loaded in constructor
+    // UMaterialParameterCollection* weather_parameter_collection_;
+    // int temp = 1;
 };

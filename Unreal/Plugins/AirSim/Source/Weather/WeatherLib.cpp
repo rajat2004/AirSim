@@ -1,44 +1,84 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "WeatherLib.h"
+#include "WeatherLibUtil.h"
 #include "Materials/MaterialParameterCollection.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "Blueprint/UserWidget.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 
+// UWeatherLib::UWeatherLib()
+// {
+//     static ConstructorHelpers::FObjectFinder<UMaterialParameterCollection> WeatherParameterCollection(getWeatherParamsObjectPath());
+//     UE_LOG(LogTemp, Warning, TEXT("Testing, Temp is :%d"), temp);
+
+    // if (WeatherParameterCollection.Succeeded())
+    // {
+    //     UE_LOG(LogTemp, Warning, TEXT("Succeeded, WeatherAPI could get WeatherParameterCollection!"));
+    //     weather_parameter_collection_ = WeatherParameterCollection.Object;
+
+    //     if (weather_parameter_collection_) {
+    //         temp = 2;
+    //         UE_LOG(LogTemp, Warning, TEXT("WeatherParameterCollection is not null"));
+    //     }
+    //     else {
+    //         UE_LOG(LogTemp, Warning, TEXT("WARNING, WeatherParameterCollection is NULL"));
+    //     }
+//         // UMaterialParameterCollectionInstance* Instance = World->GetParameterCollectionInstance(WeatherParameterCollection.Object);
+//         //     if (Instance)
+//         //     {
+//         //         return Instance;
+//         //     }
+//         //     else
+//             // {
+//                 // UE_LOG(LogTemp, Warning, TEXT("Warning, WeatherAPI could NOT get WeatherParameterCollectionInstance1!"));
+//             // }
+            
+//     }
+//     else
+//         UE_LOG(LogTemp, Warning, TEXT("Warning, WeatherAPI could NOT get WeatherParameterCollection!"));
+// }
 
 UMaterialParameterCollectionInstance* UWeatherLib::getWeatherMaterialCollectionInstance(UWorld* World)
 {
 	//UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull);
-	if (World)
-	{
-		UMaterialParameterCollection* WeatherParameterCollection = Cast<UMaterialParameterCollection>(StaticLoadObject(UMaterialParameterCollection::StaticClass(), NULL, getWeatherParamsObjectPath()));
+ //    UE_LOG(LogTemp, Warning, TEXT("Temp is :%d"), temp);
+	// if (World)
+	// {
+	// 	// UMaterialParameterCollection* WeatherParameterCollection = Cast<UMaterialParameterCollection>(
+ //  //           StaticLoadObject(UMaterialParameterCollection::StaticClass(), NULL, getWeatherParamsObjectPath()));
 
-		//UWorld* World = GetWorld();
-		if (WeatherParameterCollection)
-		{
-			UMaterialParameterCollectionInstance* Instance = World->GetParameterCollectionInstance(WeatherParameterCollection);
-			if (Instance)
-			{
-				return Instance;
-			}
-			else
-			{
-				UE_LOG(LogTemp, Warning, TEXT("Warning, WeatherAPI could NOT get WeatherParameterCollectionInstance1!"));
-			}
+ //        // static ConstructorHelpers::FObjectFinder<UMaterialParameterCollection> WeatherParameterCollection(getWeatherParamsObjectPath());
+
+	// 	//UWorld* World = GetWorld();
+	// 	// if (WeatherParameterCollection.Succeeded())
+ //        if (weather_parameter_collection_)
+	// 	{
+	// 		UMaterialParameterCollectionInstance* Instance = World->GetParameterCollectionInstance(weather_parameter_collection_);
+	// 		if (Instance)
+	// 		{
+	// 			return Instance;
+	// 		}
+	// 		else
+	// 		{
+	// 			UE_LOG(LogTemp, Warning, TEXT("Warning, WeatherAPI could NOT get WeatherParameterCollectionInstance1!"));
+	// 		}
 			
-		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("Warning, WeatherAPI could NOT get WeatherParameterCollection1!"));
-		}
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Warning, WeatherAPI could NOT get World!"));
-	}
+	// 	}
+	// 	else
+	// 	{
+	// 		UE_LOG(LogTemp, Warning, TEXT("Warning, WeatherAPI could NOT get WeatherParameterCollection1!"));
+	// 	}
+	// }
+	// else
+	// {
+	// 	UE_LOG(LogTemp, Warning, TEXT("Warning, WeatherAPI could NOT get World!"));
+	// }
 
-	return NULL;
+	// return NULL;
+    UWeatherLibUtil weather_lib_util;
+    return weather_lib_util.getWeatherMaterialCollectionInstance(World);
 }
+
 void UWeatherLib::initWeather(UWorld* World, TArray<AActor*> ActorsToAttachTo)
 {
 	//UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull);
@@ -86,7 +126,7 @@ void UWeatherLib::initWeather(UWorld* World, TArray<AActor*> ActorsToAttachTo)
 }
 void UWeatherLib::setWeatherParamScalar(UWorld* World, EWeatherParamScalar Param, float Amount)
 {
-	UMaterialParameterCollectionInstance* WeatherMaterialCollectionInstance = UWeatherLib::getWeatherMaterialCollectionInstance(World);
+	UMaterialParameterCollectionInstance* WeatherMaterialCollectionInstance = getWeatherMaterialCollectionInstance(World);
 	if (WeatherMaterialCollectionInstance)
 	{
 		FName ParamName = GetWeatherParamScalarName(Param);
@@ -114,7 +154,7 @@ void UWeatherLib::setWeatherParamScalar(UWorld* World, EWeatherParamScalar Param
 }
 float UWeatherLib::getWeatherParamScalar(UWorld* World, EWeatherParamScalar Param)
 {
-	UMaterialParameterCollectionInstance* WeatherMaterialCollectionInstance = UWeatherLib::getWeatherMaterialCollectionInstance(World);
+	UMaterialParameterCollectionInstance* WeatherMaterialCollectionInstance = getWeatherMaterialCollectionInstance(World);
 	if (WeatherMaterialCollectionInstance)
 	{
 		FName ParamName = GetWeatherParamScalarName(Param);
@@ -135,7 +175,7 @@ float UWeatherLib::getWeatherParamScalar(UWorld* World, EWeatherParamScalar Para
 }
 FVector UWeatherLib::getWeatherWindDirection(UWorld* World)
 {
-	UMaterialParameterCollectionInstance* WeatherMaterialCollectionInstance = UWeatherLib::getWeatherMaterialCollectionInstance(World);
+	UMaterialParameterCollectionInstance* WeatherMaterialCollectionInstance = getWeatherMaterialCollectionInstance(World);
 	if (WeatherMaterialCollectionInstance)
 	{
 		FName ParamName = GetWeatherParamVectorName(EWeatherParamVector::WEATHER_PARAM_VECTOR_WIND);
@@ -156,7 +196,7 @@ FVector UWeatherLib::getWeatherWindDirection(UWorld* World)
 }
 void UWeatherLib::setWeatherWindDirection(UWorld* World, FVector NewWind)
 {
-	UMaterialParameterCollectionInstance* WeatherMaterialCollectionInstance = UWeatherLib::getWeatherMaterialCollectionInstance(World);
+	UMaterialParameterCollectionInstance* WeatherMaterialCollectionInstance = getWeatherMaterialCollectionInstance(World);
 	if (WeatherMaterialCollectionInstance)
 	{
 		FName ParamName = GetWeatherParamVectorName(EWeatherParamVector::WEATHER_PARAM_VECTOR_WIND);
