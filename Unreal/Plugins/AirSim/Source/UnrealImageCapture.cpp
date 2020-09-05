@@ -1,9 +1,11 @@
 #include "UnrealImageCapture.h"
 #include "Engine/World.h"
 #include "ImageUtils.h"
+#include "Runtime/Core/Public/Async/ParallelFor.h"
 
 #include "RenderRequest.h"
 #include "common/ClockFactory.hpp"
+#include "AirBlueprintLib.h"
 
 UnrealImageCapture::UnrealImageCapture(const common_utils::UniqueValueMap<std::string, APIPCamera*>* cameras)
     : cameras_(cameras)
@@ -70,6 +72,7 @@ void UnrealImageCapture::getSceneCaptureImage(const std::vector<msr::airlib::Ima
             textureTarget = capture->TextureTarget;
 
         render_params.push_back(std::make_shared<RenderRequest::RenderParams>(capture, textureTarget, requests[i].pixels_as_float, requests[i].compress));
+        render_results.push_back(std::make_shared<RenderRequest::RenderResult>());
     }
 
     if (nullptr == gameViewport) {
@@ -89,7 +92,13 @@ void UnrealImageCapture::getSceneCaptureImage(const std::vector<msr::airlib::Ima
     };
     RenderRequest render_request { gameViewport, std::move(query_camera_pose_cb) };
 
-    render_request.getScreenshot(render_params.data(), render_results, render_params.size(), use_safe_method);
+    //render_request.getScreenshot(render_params.data(), render_results, render_params.size(), use_safe_method);
+    ParallelFor(render_params.size(), [&render_request, &render_params, &render_results, use_safe_method](int32 Idx) {
+        render_request.getScreenshot(render_params[Idx], render_results[Idx], use_safe_method);
+    }, false);
+
+    UAirBlueprintLib::LogMessageString("Reached after the ParallelFor", "", LogDebugLevel:Informational);
+
 
     for (unsigned int i = 0; i < requests.size(); ++i) {
         const ImageRequest& request = requests.at(i);

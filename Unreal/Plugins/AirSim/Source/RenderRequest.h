@@ -39,9 +39,9 @@ public:
 private:
     static FReadSurfaceDataFlags setupRenderResource(const FTextureRenderTargetResource* rt_resource, const RenderParams* params, RenderResult* result, FIntPoint& size);
 
-    std::shared_ptr<RenderParams>* params_;
-    std::shared_ptr<RenderResult>* results_;
-    unsigned int req_size_;
+    std::shared_ptr<RenderParams> params_;
+    std::shared_ptr<RenderResult> result_;
+    //unsigned int req_size_;
 
     std::shared_ptr<msr::airlib::WorkerThreadSignal> wait_signal_;
 
@@ -66,8 +66,10 @@ public:
 
     // read pixels from render target using render thread, then compress the result into PNG
     // argument on the thread that calls this method.
-    void getScreenshot(
-        std::shared_ptr<RenderParams> params[], std::vector<std::shared_ptr<RenderResult>>& results, unsigned int req_size, bool use_safe_method);
+    //void getScreenshot(
+        //std::shared_ptr<RenderParams> params[], std::vector<std::shared_ptr<RenderResult>>& results, unsigned int req_size, bool use_safe_method);
+
+    void getScreenshot(std::shared_ptr<RenderParams> params, std::shared_ptr<RenderResult> results, bool use_safe_method);
 
     void ExecuteTask();
 };
