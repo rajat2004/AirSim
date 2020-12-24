@@ -369,7 +369,8 @@ bool WorldSimApi::setObjectScale(const std::string& object_name, const Vector3r&
 void WorldSimApi::enableWeather(bool enable)
 {
     UAirBlueprintLib::RunCommandOnGameThread([this, enable]() {
-        UWeatherLib::setWeatherEnabled(simmode_->GetWorld(), enable);
+        // UWeatherLib::setWeatherEnabled(simmode_->GetWorld(), enable);
+        simmode_->enableWeather(enable);
     }, true);
 }
 
@@ -379,7 +380,8 @@ void WorldSimApi::setWeatherParameter(WeatherParameter param, float val)
     EWeatherParamScalar param_e = msr::airlib::Utils::toEnum<EWeatherParamScalar>(param_n);
 
     UAirBlueprintLib::RunCommandOnGameThread([this, param_e, val]() {
-        UWeatherLib::setWeatherParamScalar(simmode_->GetWorld(), param_e, val);
+        // UWeatherLib::setWeatherParamScalar(simmode_->GetWorld(), param_e, val);
+        simmode_->setWeatherParameter(param_e, val);
     }, true);
 }
 

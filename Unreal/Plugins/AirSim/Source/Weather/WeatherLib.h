@@ -32,7 +32,7 @@ enum class EWeatherParamVector : uint8
 	WEATHER_PARAM_VECTOR_MAX = 1	UMETA(DisplayName = "MAX")
 };
 /**
- * 
+ *
  */
 UCLASS(BlueprintType)
 class AIRSIM_API UWeatherLib : public UBlueprintFunctionLibrary
@@ -41,10 +41,6 @@ class AIRSIM_API UWeatherLib : public UBlueprintFunctionLibrary
 
 	// not sure why, but content folder should be omitted in the path
 	// location of the weather UMaterialParameterCollection, params for rain snow wind etc
-		static const TCHAR* getWeatherParamsObjectPath()
-	{
-		return TEXT("/AirSim/Weather/WeatherFX/WeatherGlobalParams");
-	}
 	static const FSoftClassPath getWeatherMenuObjectPath()
 	{
 		return FSoftClassPath(TEXT("AActor'/AirSim/Weather/UI/MenuActor.MenuActor_C'"));
@@ -54,7 +50,7 @@ class AIRSIM_API UWeatherLib : public UBlueprintFunctionLibrary
 	{
 		return FSoftClassPath(TEXT("AActor'/AirSim/Weather/WeatherFX/WeatherActor.WeatherActor_C'"));
 	}
-	
+
 	static const FSoftClassPath getWeatherMenuWidgetClass()
 	{
 		return FSoftClassPath(TEXT("UUserWidget'/AirSim/HUDAssets/OptionsMenu.OptionsMenu_C'"));
@@ -69,7 +65,7 @@ class AIRSIM_API UWeatherLib : public UBlueprintFunctionLibrary
 	// corresponding param name to set in Weather Params material collection
 	static const FName GetWeatherParamScalarName(EWeatherParamScalar WeatherParam)
 	{
-		switch (WeatherParam) 
+		switch (WeatherParam)
 		{
 			case EWeatherParamScalar::WEATHER_PARAM_SCALAR_RAIN:
 			{
@@ -136,6 +132,11 @@ class AIRSIM_API UWeatherLib : public UBlueprintFunctionLibrary
 	static UMaterialParameterCollectionInstance* getWeatherMaterialCollectionInstance(UWorld* World);
 
 public:
+    static const TCHAR* getWeatherParamsObjectPath()
+    {
+        return TEXT("MaterialParameterCollection'/AirSim/Weather/WeatherFX/WeatherGlobalParams.WeatherGlobalParams'");
+    }
+
 	// ActorsToAttachTo is an array of actors that we will attach weather particles to
 	// in most cases, this will be the playable pawns so they will always have weather fx
 	UFUNCTION(BlueprintCallable, Category = Weather)
@@ -143,24 +144,25 @@ public:
 
 	/* only sets or gets one param. need any actor in the world for WorldContextObject, so we can get world*/
 	UFUNCTION(BlueprintCallable, Category=Weather)
-	static void setWeatherParamScalar(UWorld* World, EWeatherParamScalar Param, float Amount);
+	static void setWeatherParamScalar(UMaterialParameterCollectionInstance* WeatherMaterialCollectionInstance,
+                                        EWeatherParamScalar Param, float Amount);
 
 	UFUNCTION(BlueprintCallable, Category = Weather)
-	static float getWeatherParamScalar(UWorld* World, EWeatherParamScalar Param);
+	static float getWeatherParamScalar(UMaterialParameterCollectionInstance* WeatherMaterialCollectionInstance, EWeatherParamScalar Param);
 
 	// only vector for now
 	UFUNCTION(BlueprintCallable, Category = Weather)
-	static FVector getWeatherWindDirection(UWorld* World);
+	static FVector getWeatherWindDirection(UMaterialParameterCollectionInstance* WeatherMaterialCollectionInstance);
 
 	// in a range of (-1, -1, -1) to (1, 1, 1)
 	UFUNCTION(BlueprintCallable, Category = Weather)
-	static void setWeatherWindDirection(UWorld* World, FVector NewWind);
+	static void setWeatherWindDirection(UMaterialParameterCollectionInstance* WeatherMaterialCollectionInstance, FVector NewWind);
 
 	UFUNCTION(BlueprintCallable, Category = Weather)
-	static bool getIsWeatherEnabled(UWorld* World);
+	static bool getIsWeatherEnabled(UMaterialParameterCollectionInstance* WeatherMaterialCollectionInstance);
 
 	UFUNCTION(BlueprintCallable, Category = Weather)
-	static void setWeatherEnabled(UWorld* World, bool bEnabled);
+	static void setWeatherEnabled(UMaterialParameterCollectionInstance* WeatherMaterialCollectionInstance, bool bEnabled);
 
 	UFUNCTION(BlueprintCallable, Category = Weather)
 	static void showWeatherMenu(UWorld* World);

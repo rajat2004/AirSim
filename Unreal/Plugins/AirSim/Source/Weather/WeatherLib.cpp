@@ -25,7 +25,7 @@ UMaterialParameterCollectionInstance* UWeatherLib::getWeatherMaterialCollectionI
 			{
 				UE_LOG(LogTemp, Warning, TEXT("Warning, WeatherAPI could NOT get WeatherParameterCollectionInstance1!"));
 			}
-			
+
 		}
 		else
 		{
@@ -63,7 +63,7 @@ void UWeatherLib::initWeather(UWorld* World, TArray<AActor*> ActorsToAttachTo)
 		{
 			UE_LOG(LogTemp, Warning, TEXT("Warning, WeatherAPI got invalid weather actor class!"));
 		}
-		// still need the menu class for f10 
+		// still need the menu class for f10
 		UClass* MenuActorClass = getWeatherMenuObjectPath().TryLoadClass<AActor>();
 		if (MenuActorClass)
 		{
@@ -84,9 +84,9 @@ void UWeatherLib::initWeather(UWorld* World, TArray<AActor*> ActorsToAttachTo)
 	//showWeatherMenu(WorldContextObject);
 
 }
-void UWeatherLib::setWeatherParamScalar(UWorld* World, EWeatherParamScalar Param, float Amount)
+void UWeatherLib::setWeatherParamScalar(UMaterialParameterCollectionInstance* WeatherMaterialCollectionInstance, EWeatherParamScalar Param, float Amount)
 {
-	UMaterialParameterCollectionInstance* WeatherMaterialCollectionInstance = UWeatherLib::getWeatherMaterialCollectionInstance(World);
+	// UMaterialParameterCollectionInstance* WeatherMaterialCollectionInstance = UWeatherLib::getWeatherMaterialCollectionInstance(World);
 	if (WeatherMaterialCollectionInstance)
 	{
 		FName ParamName = GetWeatherParamScalarName(Param);
@@ -101,7 +101,7 @@ void UWeatherLib::setWeatherParamScalar(UWorld* World, EWeatherParamScalar Param
 		// and must be set to true or false before this.
 		// WeatherEnabled will always be false
 		// NOTE: weather enabled must be set first, before other params for this to work
-		if (!getIsWeatherEnabled(World))
+		if (!getIsWeatherEnabled(WeatherMaterialCollectionInstance))
 		{
 			WeatherMaterialCollectionInstance->SetScalarParameterValue(ParamName, 0.0f);
 		}
@@ -112,9 +112,9 @@ void UWeatherLib::setWeatherParamScalar(UWorld* World, EWeatherParamScalar Param
 		UE_LOG(LogTemp, Warning, TEXT("Warning, WeatherAPI could NOT get MaterialCollectionInstance!"));
 	}
 }
-float UWeatherLib::getWeatherParamScalar(UWorld* World, EWeatherParamScalar Param)
+float UWeatherLib::getWeatherParamScalar(UMaterialParameterCollectionInstance* WeatherMaterialCollectionInstance, EWeatherParamScalar Param)
 {
-	UMaterialParameterCollectionInstance* WeatherMaterialCollectionInstance = UWeatherLib::getWeatherMaterialCollectionInstance(World);
+	// UMaterialParameterCollectionInstance* WeatherMaterialCollectionInstance = UWeatherLib::getWeatherMaterialCollectionInstance(World);
 	if (WeatherMaterialCollectionInstance)
 	{
 		FName ParamName = GetWeatherParamScalarName(Param);
@@ -133,9 +133,9 @@ float UWeatherLib::getWeatherParamScalar(UWorld* World, EWeatherParamScalar Para
 	}
 	return 0.0f;
 }
-FVector UWeatherLib::getWeatherWindDirection(UWorld* World)
+FVector UWeatherLib::getWeatherWindDirection(UMaterialParameterCollectionInstance* WeatherMaterialCollectionInstance)
 {
-	UMaterialParameterCollectionInstance* WeatherMaterialCollectionInstance = UWeatherLib::getWeatherMaterialCollectionInstance(World);
+	// UMaterialParameterCollectionInstance* WeatherMaterialCollectionInstance = UWeatherLib::getWeatherMaterialCollectionInstance(World);
 	if (WeatherMaterialCollectionInstance)
 	{
 		FName ParamName = GetWeatherParamVectorName(EWeatherParamVector::WEATHER_PARAM_VECTOR_WIND);
@@ -154,9 +154,9 @@ FVector UWeatherLib::getWeatherWindDirection(UWorld* World)
 	}
 	return FVector(0,0,0);
 }
-void UWeatherLib::setWeatherWindDirection(UWorld* World, FVector NewWind)
+void UWeatherLib::setWeatherWindDirection(UMaterialParameterCollectionInstance* WeatherMaterialCollectionInstance, FVector NewWind)
 {
-	UMaterialParameterCollectionInstance* WeatherMaterialCollectionInstance = UWeatherLib::getWeatherMaterialCollectionInstance(World);
+	// UMaterialParameterCollectionInstance* WeatherMaterialCollectionInstance = UWeatherLib::getWeatherMaterialCollectionInstance(World);
 	if (WeatherMaterialCollectionInstance)
 	{
 		FName ParamName = GetWeatherParamVectorName(EWeatherParamVector::WEATHER_PARAM_VECTOR_WIND);
@@ -171,22 +171,23 @@ void UWeatherLib::setWeatherWindDirection(UWorld* World, FVector NewWind)
 		UE_LOG(LogTemp, Warning, TEXT("Warning, WeatherAPI could NOT get MaterialCollectionInstance!"));
 	}
 }
-bool UWeatherLib::getIsWeatherEnabled(UWorld* World)
+bool UWeatherLib::getIsWeatherEnabled(UMaterialParameterCollectionInstance* WeatherMaterialCollectionInstance)
 {
-	if (getWeatherParamScalar(World, EWeatherParamScalar::WEATHER_PARAM_SCALAR_WEATHERENABLED) == 1.0f)
-	{
-		return true;
-	}
-	return false;
+	// if (getWeatherParamScalar(WeatherMaterialCollectionInstance, EWeatherParamScalar::WEATHER_PARAM_SCALAR_WEATHERENABLED) == 1.0f)
+	// {
+	// 	return true;
+	// }
+	// return false;
+    return getWeatherParamScalar(WeatherMaterialCollectionInstance, EWeatherParamScalar::WEATHER_PARAM_SCALAR_WEATHERENABLED) == 1.0f;
 }
-void UWeatherLib::setWeatherEnabled(UWorld* World, bool bEnabled)
+void UWeatherLib::setWeatherEnabled(UMaterialParameterCollectionInstance* WeatherMaterialCollectionInstance, bool bEnabled)
 {
 	float Value = 0;
 	if (bEnabled)
 	{
 		Value = 1;
 	}
-	setWeatherParamScalar(World, EWeatherParamScalar::WEATHER_PARAM_SCALAR_WEATHERENABLED, Value);
+	setWeatherParamScalar(WeatherMaterialCollectionInstance, EWeatherParamScalar::WEATHER_PARAM_SCALAR_WEATHERENABLED, Value);
 }
 void UWeatherLib::showWeatherMenu(UWorld* World)
 {

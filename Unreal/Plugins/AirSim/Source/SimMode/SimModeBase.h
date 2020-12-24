@@ -15,6 +15,7 @@
 #include "PawnSimApi.h"
 #include "common/StateReporterWrapper.hpp"
 #include "LoadingScreenWidget.h"
+#include "Weather/WeatherLib.h"
 #include "SimModeBase.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLevelLoaded);
@@ -73,6 +74,10 @@ public:
     void startApiServer();
     void stopApiServer();
     bool isApiServerStarted();
+
+    // Wrapper methods for WeatherLib
+    void enableWeather(bool enable);
+    void setWeatherParameter(EWeatherParamScalar param, float amount);
 
     const NedTransform& getGlobalNedTransform();
 
@@ -142,6 +147,8 @@ private:
     UPROPERTY() UClass* camera_director_class_;
     UPROPERTY() UClass* sky_sphere_class_;
     UPROPERTY() ULoadingScreenWidget* loading_screen_widget_;
+    UPROPERTY() UMaterialParameterCollection* weather_params_collection_;
+    UPROPERTY() UMaterialParameterCollectionInstance* weather_params_collection_instance_;
 
 
     UPROPERTY() AActor* sky_sphere_;
