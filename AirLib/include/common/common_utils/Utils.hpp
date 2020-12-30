@@ -706,6 +706,11 @@ public:
         }
     }
 
+    static void writePPMfile(const uint8_t* const image_data, int width, int height, const std::string &path)
+    {
+        
+    }
+
     template<typename T>
     static std::string toBinaryString(const T& x)
     {
