@@ -46,6 +46,7 @@ public:
     void setupCameraFromSettings(const APIPCamera::CameraSetting& camera_setting, const NedTransform& ned_transform);
     void setCameraPose(const FTransform& pose);
     void setCameraFoV(float fov_degrees);
+    msr::airlib::CameraInfo getCameraInfo() const;
 
     msr::airlib::ProjectionMatrix getProjectionMatrix(const APIPCamera::ImageType image_type) const;
 

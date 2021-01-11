@@ -290,6 +290,16 @@ void APIPCamera::setCameraFoV(float fov_degrees)
     }
 }
 
+msr::airlib::CameraInfo APIPCamera::getCameraInfo() const
+{
+    msr::airlib::CameraInfo camera_info;
+
+    camera_info.pose.position = ned_transform_->toLocalNed(this->GetActorLocation());
+    camera_info.pose.orientation = ned_transform_->toNed(this->GetActorRotation().Quaternion());
+    camera_info.fov = camera_->FieldOfView;
+    camera_info.proj_mat = getProjectionMatrix(ImageType::Scene);
+    return camera_info;
+}
 
 void APIPCamera::setupCameraFromSettings(const APIPCamera::CameraSetting& camera_setting, const NedTransform& ned_transform)
 {

@@ -400,14 +400,8 @@ void PawnSimApi::plot(std::istream& s, FColor color, const Vector3r& offset)
 
 msr::airlib::CameraInfo PawnSimApi::getCameraInfo(const std::string& camera_name) const
 {
-    msr::airlib::CameraInfo camera_info;
-
     const APIPCamera* camera = getCamera(camera_name);
-    camera_info.pose.position = ned_transform_.toLocalNed(camera->GetActorLocation());
-    camera_info.pose.orientation = ned_transform_.toNed(camera->GetActorRotation().Quaternion());
-    camera_info.fov = camera->GetCameraComponent()->FieldOfView;
-    camera_info.proj_mat = camera->getProjectionMatrix(APIPCamera::ImageType::Scene);
-    return camera_info;
+    return camera->getCameraInfo();
 }
 
 void PawnSimApi::setCameraPose(const std::string& camera_name, const msr::airlib::Pose& pose)
