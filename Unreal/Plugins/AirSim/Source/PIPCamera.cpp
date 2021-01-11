@@ -318,6 +318,11 @@ std::vector<float> APIPCamera::getDistortionParams() const
     return param_values;
 }
 
+void APIPCamera::setDistortionParam(const std::string& param_name, float value)
+{
+    distortion_param_instance_->SetScalarParameterValue(FName(param_name.c_str()), value);
+}
+
 void APIPCamera::setupCameraFromSettings(const APIPCamera::CameraSetting& camera_setting, const NedTransform& ned_transform)
 {
     //TODO: should we be ignoring position and orientation settings here?

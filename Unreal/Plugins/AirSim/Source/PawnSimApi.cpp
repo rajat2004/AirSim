@@ -423,9 +423,8 @@ void PawnSimApi::setCameraFoV(const std::string& camera_name, float fov_degrees)
 
 void PawnSimApi::setDistortionParam(const std::string& camera_name, const std::string& param_name, float value)
 {
-    UAirBlueprintLib::RunCommandOnGameThread([this, camera_name, param_name, value]() {
-        APIPCamera* camera = getCamera(camera_name);
-        camera->distortion_param_instance_->SetScalarParameterValue(FName(param_name.c_str()), value);
+    UAirBlueprintLib::RunCommandOnGameThread([this, &camera_name, &param_name, &value]() {
+        getCamera(camera_name)->setDistortionParam(param_name, value);
     }, true);
 }
 
