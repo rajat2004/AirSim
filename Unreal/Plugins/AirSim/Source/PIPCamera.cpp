@@ -301,6 +301,23 @@ msr::airlib::CameraInfo APIPCamera::getCameraInfo() const
     return camera_info;
 }
 
+std::vector<float> APIPCamera::getDistortionParams() const
+{
+    std::vector<float> param_values(5, 0.0);
+
+    auto getParamValue = [this](const auto &name, float &val) {
+        distortion_param_instance_->GetScalarParameterValue(FName(name), val);
+    };
+
+    getParamValue(TEXT("K1"), param_values[0]);
+    getParamValue(TEXT("K2"), param_values[1]);
+    getParamValue(TEXT("K3"), param_values[2]);
+    getParamValue(TEXT("P1"), param_values[3]);
+    getParamValue(TEXT("P2"), param_values[4]);
+
+    return param_values;
+}
+
 void APIPCamera::setupCameraFromSettings(const APIPCamera::CameraSetting& camera_setting, const NedTransform& ned_transform)
 {
     //TODO: should we be ignoring position and orientation settings here?

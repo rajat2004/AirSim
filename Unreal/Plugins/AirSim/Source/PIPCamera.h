@@ -47,6 +47,7 @@ public:
     void setCameraPose(const FTransform& pose);
     void setCameraFoV(float fov_degrees);
     msr::airlib::CameraInfo getCameraInfo() const;
+    std::vector<float> getDistortionParams() const;
 
     msr::airlib::ProjectionMatrix getProjectionMatrix(const APIPCamera::ImageType image_type) const;
 
