@@ -366,6 +366,7 @@ public: //fields
     std::string speed_unit_label = "m\\s";
     std::map<std::string, std::unique_ptr<SensorSetting>> sensor_defaults;
     Vector3r wind = Vector3r::Zero();
+    std::map<std::string, CameraSetting> external_cameras;
 
 public: //methods
     static AirSimSettings& singleton()
@@ -401,6 +402,7 @@ public: //methods
         loadOtherSettings(settings_json);
         loadDefaultSensorSettings(simmode_name, settings_json, sensor_defaults);
         loadVehicleSettings(simmode_name, settings_json, vehicles);
+        loadExternalCameraSettings(settings_json, external_cameras);
 
         //this should be done last because it depends on type of vehicles we have
         loadClockSettings(settings_json);
@@ -1319,6 +1321,23 @@ private:
             loadSensorSettings(settings_json, "DefaultSensors", sensors);
         else
             createDefaultSensorSettings(simmode_name, sensors);
+    }
+
+    static void loadExternalCameraSettings(const Settings& settings_json, std::map<std::string, CameraSetting> &external_cameras)
+    {
+        external_cameras.clear();
+
+        Settings json_parent;
+        if (settings_json.getChild("ExternalCameras", json_parent)) {
+            std::vector<std::string> keys;
+            json_parent.getChildNames(keys);
+
+            for (const auto& key : keys) {
+                Settings child;
+                json_parent.getChild(key, child);
+                external_cameras[key] = createCameraSetting(child);
+            }
+        }
     }
 };
 
