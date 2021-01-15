@@ -85,7 +85,11 @@ namespace airlib
         virtual vector<string> listVehicles() const = 0;
 
         virtual std::string getSettingsString() const = 0;
+
+        // Image APIs
+        virtual CameraInfo getCameraInfo(const std::string& camera_name, const std::string& vehicle_name="", bool external=false) const = 0;
     };
 }
 } //namespace
+
 #endif

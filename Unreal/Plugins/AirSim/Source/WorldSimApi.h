@@ -74,6 +74,11 @@ public:
 
     virtual std::string getSettingsString() const override;
 
+    // Image APIs
+    virtual msr::airlib::CameraInfo getCameraInfo(const std::string& camera_name, const std::string& vehicle_name = "", 
+                                     bool external = false) const override;
+
+
 private:
     AActor* createNewActor(const FActorSpawnParameters& spawn_params, const FTransform& actor_transform, const Vector3r& scale, UStaticMesh* static_mesh);
     void spawnPlayer();

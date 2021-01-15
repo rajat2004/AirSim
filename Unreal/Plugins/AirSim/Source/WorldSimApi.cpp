@@ -627,3 +627,13 @@ std::string WorldSimApi::getSettingsString() const
 {
     return msr::airlib::AirSimSettings::singleton().settings_text_;
 }
+
+CameraInfo WorldSimApi::getCameraInfo(const std::string& camera_name, const std::string& vehicle_name, bool external) const
+{
+    CameraInfo info;
+    UAirBlueprintLib::RunCommandOnGameThread([this, &camera_name, &vehicle_name, external, &info]() {
+        info = simmode_->getCameraInfo(camera_name, vehicle_name, external);
+    }, true);
+
+    return info;
+}
