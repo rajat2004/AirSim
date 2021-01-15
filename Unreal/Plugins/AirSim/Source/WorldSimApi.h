@@ -67,6 +67,11 @@ public:
     virtual void setWind(const Vector3r& wind) const override;
     virtual bool createVoxelGrid(const Vector3r& position, const int& x_size, const int& y_size, const int& z_size, const float& res, const std::string& output_file) override;
 
+    // Image APIs
+    virtual msr::airlib::CameraInfo getCameraInfo(const std::string& camera_name, const std::string& vehicle_name = "", 
+                                     bool external = false) const override;
+
+
 private:
     AActor* createNewActor(const FActorSpawnParameters& spawn_params, const FTransform& actor_transform, const Vector3r& scale, UStaticMesh* static_mesh);
     void spawnPlayer();

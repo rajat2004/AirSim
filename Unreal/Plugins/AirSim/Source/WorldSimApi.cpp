@@ -558,3 +558,13 @@ void WorldSimApi::setWind(const Vector3r& wind) const
 {
     simmode_->setWind(wind);
 }
+
+CameraInfo WorldSimApi::getCameraInfo(const std::string& camera_name, const std::string& vehicle_name, bool external) const
+{
+    CameraInfo info;
+    UAirBlueprintLib::RunCommandOnGameThread([this, &camera_name, &vehicle_name, external, &info]() {
+        info = simmode_->getCameraInfo(camera_name, vehicle_name, external);
+    }, true);
+
+    return info;
+}

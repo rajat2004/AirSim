@@ -74,6 +74,10 @@ public:
     virtual bool isRecording() const = 0;
 
     virtual void setWind(const Vector3r& wind) const = 0;
+
+    // Image APIs
+    virtual CameraInfo getCameraInfo(const std::string& camera_name, const std::string& vehicle_name="", bool external=false) const = 0;
+
 };
 
 
