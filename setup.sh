@@ -27,7 +27,7 @@ done
 
 # llvm tools
 if [ "$(uname)" == "Darwin" ]; then # osx
-    brew update
+    brew update --quiet
     brew tap llvm-hs/homebrew-llvm
     brew install llvm@8
 else #linux
