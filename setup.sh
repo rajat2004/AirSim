@@ -29,7 +29,7 @@ done
 if [ "$(uname)" == "Darwin" ]; then # osx
     brew update --quiet
     brew tap llvm-hs/homebrew-llvm
-    brew install llvm@8
+    HOMEBREW_NO_INSTALL_CLEANUP=TRUE brew install llvm@8
 else #linux
     sudo apt-get update
     sudo apt-get -y install --no-install-recommends \
