@@ -44,7 +44,7 @@ public:
     void setCameraTypeEnabled(ImageType type, bool enabled);
     bool getCameraTypeEnabled(ImageType type) const;
     void setupCameraFromSettings(const APIPCamera::CameraSetting& camera_setting, const NedTransform& ned_transform);
-    void setCameraPose(const FTransform& pose);
+    void setCameraPose(const msr::airlib::Pose& relative_pose);
     void setCameraFoV(float fov_degrees);
     msr::airlib::CameraInfo getCameraInfo() const;
     std::vector<float> getDistortionParams() const;

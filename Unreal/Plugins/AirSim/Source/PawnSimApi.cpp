@@ -408,8 +408,7 @@ void PawnSimApi::setCameraPose(const std::string& camera_name, const msr::airlib
 {
     UAirBlueprintLib::RunCommandOnGameThread([this, camera_name, pose]() {
         APIPCamera* camera = getCamera(camera_name);
-        FTransform pose_unreal = ned_transform_.fromRelativeNed(pose);
-        camera->setCameraPose(pose_unreal);
+        camera->setCameraPose(pose);
     }, true);
 }
 

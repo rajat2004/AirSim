@@ -268,8 +268,10 @@ void APIPCamera::setCameraTypeEnabled(ImageType type, bool enabled)
     enableCaptureComponent(type, enabled);
 }
 
-void APIPCamera::setCameraPose(const FTransform& pose)
+void APIPCamera::setCameraPose(const msr::airlib::Pose& relative_pose)
 {
+    FTransform pose = ned_transform_->fromRelativeNed(relative_pose);
+
     FVector position = pose.GetLocation();
     this->SetActorRelativeLocation(pose.GetLocation());
 
