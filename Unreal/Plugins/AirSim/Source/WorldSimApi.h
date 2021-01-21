@@ -75,8 +75,15 @@ public:
     virtual std::string getSettingsString() const override;
 
     // Image APIs
-    virtual msr::airlib::CameraInfo getCameraInfo(const std::string& camera_name, const std::string& vehicle_name = "", 
-                                     bool external = false) const override;
+    virtual msr::airlib::CameraInfo getCameraInfo(const std::string& camera_name, const std::string& vehicle_name = "", bool external = false) const override;
+    virtual void setCameraPose(const std::string& camera_name, const msr::airlib::Pose& pose,
+                               const std::string& vehicle_name = "", bool external = false) override;
+    virtual void setCameraFoV(const std::string& camera_name, float fov_degrees,
+                              const std::string& vehicle_name = "", bool external = false) override;
+    virtual void setDistortionParam(const std::string& camera_name, const std::string& param_name, float value,
+                                    const std::string& vehicle_name = "", bool external = false) override;
+    virtual std::vector<float> getDistortionParams(const std::string& camera_name, const std::string& vehicle_name = "",
+                                                    bool external = false) const override;
 
 
 private:
