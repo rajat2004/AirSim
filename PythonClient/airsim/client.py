@@ -482,7 +482,7 @@ class VehicleClient:
         # TODO: below str() conversion is only needed for legacy reason and should be removed in future
         return CameraInfo.from_msgpack(self.client.call('simGetCameraInfo', str(camera_name), vehicle_name, external))
 
-    def simGetDistortionParams(self, camera_name, vehicle_name = ''):
+    def simGetDistortionParams(self, camera_name, vehicle_name = '', external = False):
         """
         Get camera distortion parameters
 
@@ -494,9 +494,9 @@ class VehicleClient:
             List (float): List of distortion parameter values corresponding to K1, K2, K3, P1, P2 respectively.
         """
     
-        return self.client.call('simGetDistortionParams', str(camera_name), vehicle_name)
+        return self.client.call('simGetDistortionParams', str(camera_name), vehicle_name, external)
 
-    def simSetDistortionParams(self, camera_name, distortion_params, vehicle_name = ''):
+    def simSetDistortionParams(self, camera_name, distortion_params, vehicle_name = '', external = False):
         """
         Set camera distortion parameters
 
@@ -508,9 +508,10 @@ class VehicleClient:
         """
 
         for param_name, value in distortion_params.items():
-            self.client.call('simSetDistortionParam', str(camera_name), param_name, value, vehicle_name)
+            # self.client.call('simSetDistortionParam', str(camera_name), param_name, value, vehicle_name, external)
+            self.simSetDistortionParam(camera_name, param_name, value, vehicle_name, external)
 
-    def simSetDistortionParam(self, camera_name, param_name, value, vehicle_name = ''):
+    def simSetDistortionParam(self, camera_name, param_name, value, vehicle_name = '', external = False):
         """
         Set single camera distortion parameter
 
@@ -520,9 +521,9 @@ class VehicleClient:
             value (float): Value of distortion parameter
             vehicle_name (str, optional): Vehicle which the camera is associated with
         """
-        self.client.call('simSetDistortionParam', str(camera_name), param_name, value, vehicle_name)
+        self.client.call('simSetDistortionParam', str(camera_name), param_name, value, vehicle_name, external)
 
-    def simSetCameraPose(self, camera_name, pose, vehicle_name = ''):
+    def simSetCameraPose(self, camera_name, pose, vehicle_name = '', external = False):
         """
         - Control the pose of a selected camera
 
@@ -532,9 +533,9 @@ class VehicleClient:
             vehicle_name (str, optional): Name of vehicle which the camera corresponds to
         """
         # TODO: below str() conversion is only needed for legacy reason and should be removed in future
-        self.client.call('simSetCameraPose', str(camera_name), pose, vehicle_name)
+        self.client.call('simSetCameraPose', str(camera_name), pose, vehicle_name, external)
 
-    def simSetCameraOrientation(self, camera_name, orientation, vehicle_name = ''):
+    def simSetCameraOrientation(self, camera_name, orientation, vehicle_name = '', external = False):
         """
         .. note::
 
@@ -549,7 +550,7 @@ class VehicleClient:
         """
         logging.warning("`simSetCameraOrientation` API has been upgraded to `simSetCameraPose`. Please update your code.")
         pose = Pose(orientation_val=orientation)
-        self.simSetCameraPose(camera_name, pose, vehicle_name)
+        self.simSetCameraPose(camera_name, pose, vehicle_name, external)
 
     def simSetCameraFov(self, camera_name, fov_degrees, vehicle_name = ''):
         """

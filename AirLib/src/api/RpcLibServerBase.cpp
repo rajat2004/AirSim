@@ -239,22 +239,24 @@ RpcLibServerBase::RpcLibServerBase(ApiProvider* api_provider, const std::string&
         return RpcLibAdapatorsBase::CameraInfo(camera_info);
     });
 
-    pimpl_->server.bind("simSetDistortionParam", [&](const std::string& camera_name, const std::string& param_name, float value, const std::string& vehicle_name) -> void {
-        getVehicleSimApi(vehicle_name)->setDistortionParam(camera_name, param_name, value);
+    pimpl_->server.bind("simSetDistortionParam", [&](const std::string& camera_name, const std::string& param_name, float value, 
+        const std::string& vehicle_name, bool external) -> void {
+        getWorldSimApi()->setDistortionParam(camera_name, param_name, value, vehicle_name, external);
     });
 
-    pimpl_->server.bind("simGetDistortionParams", [&](const std::string& camera_name, const std::string& vehicle_name) -> std::vector<float> {
-        return getVehicleSimApi(vehicle_name)->getDistortionParams(camera_name);
+    pimpl_->server.bind("simGetDistortionParams", [&](const std::string& camera_name, const std::string& vehicle_name, 
+        bool external) -> std::vector<float> {
+        return getWorldSimApi()->getDistortionParams(camera_name, vehicle_name, external);
     });
 
     pimpl_->server.bind("simSetCameraPose", [&](const std::string& camera_name, const RpcLibAdapatorsBase::Pose& pose, 
-        const std::string& vehicle_name) -> void {
-        getVehicleSimApi(vehicle_name)->setCameraPose(camera_name, pose.to());
+        const std::string& vehicle_name, bool external) -> void {
+        getWorldSimApi()->setCameraPose(camera_name, pose.to(), vehicle_name, external);
     });
 
     pimpl_->server.bind("simSetCameraFov", [&](const std::string& camera_name, float fov_degrees,
-        const std::string& vehicle_name) -> void {
-        getVehicleSimApi(vehicle_name)->setCameraFoV(camera_name, fov_degrees);
+        const std::string& vehicle_name, bool external) -> void {
+        getWorldSimApi()->setCameraFoV(camera_name, fov_degrees, vehicle_name, external);
     });
 
     pimpl_->server.bind("simGetCollisionInfo", [&](const std::string& vehicle_name) -> RpcLibAdapatorsBase::CollisionInfo {
