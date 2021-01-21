@@ -631,8 +631,9 @@ std::string WorldSimApi::getSettingsString() const
 CameraInfo WorldSimApi::getCameraInfo(const std::string& camera_name, const std::string& vehicle_name, bool external) const
 {
     CameraInfo info;
-    UAirBlueprintLib::RunCommandOnGameThread([this, &camera_name, &vehicle_name, external, &info]() {
-        info = simmode_->getCameraInfo(camera_name, vehicle_name, external);
+    UAirBlueprintLib::RunCommandOnGameThread([this, &camera_name, &vehicle_name, &external, &info]() {
+        auto camera = simmode_->getCamera(camera_name, vehicle_name, external);
+        info = camera->getCameraInfo();
     }, true);
 
     return info;
