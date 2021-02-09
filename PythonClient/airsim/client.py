@@ -255,6 +255,52 @@ class VehicleClient:
         responses_raw = self.client.call('simGetImages', requests, vehicle_name)
         return [ImageResponse.from_msgpack(response_raw) for response_raw in responses_raw]
 
+        # camera control
+    # simGetImage returns compressed png in array of bytes
+    # image_type uses one of the ImageType members
+    def simGetExternalImages(self, requests):
+        """
+        Get multiple images
+
+        See https://microsoft.github.io/AirSim/image_apis/ for details and examples
+
+        Args:
+            requests (list[ImageRequest]): Images required
+            vehicle_name (str, optional): Name of vehicle associated with the camera
+
+        Returns:
+            list[ImageResponse]:
+        """
+        responses_raw = self.client.call('simGetExternalImages', requests)
+        return [ImageResponse.from_msgpack(response_raw) for response_raw in responses_raw]
+    # camera control
+    # simGetImage returns compressed png in array of bytes
+    # image_type uses one of the ImageType members
+    def simGetExternalImage(self, camera_name, image_type):
+        """
+        Get a single image
+
+        Returns bytes of png format image which can be dumped into abinary file to create .png image
+        `string_to_uint8_array()` can be used to convert into Numpy unit8 array
+        See https://microsoft.github.io/AirSim/image_apis/ for details
+
+        Args:
+            camera_name (str): Name of the camera, for backwards compatibility, ID numbers such as 0,1,etc. can also be used
+            image_type (ImageType): Type of image required
+            vehicle_name (str, optional): Name of the vehicle with the camera
+
+        Returns:
+            Binary string literal of compressed png image
+        """
+        # todo: in future remove below, it's only for compatibility to pre v1.2
+        camera_name = str(camera_name)
+
+        # because this method returns std::vector<uint8>, msgpack decides to encode it as a string unfortunately.
+        result = self.client.call('simGetExternalImage', camera_name, image_type)
+        if (result == "" or result == "\0"):
+            return None
+        return result
+
     def simRunConsoleCommand(self, command):
         """
         Allows the client to execute a command in Unreal's native console, via an API.

@@ -242,6 +242,22 @@ vector<uint8_t> RpcLibClientBase::simGetImage(const std::string& camera_name, Im
     return result;
 }
 
+vector<ImageCaptureBase::ImageResponse> RpcLibClientBase::simGetExternalImages(vector<ImageCaptureBase::ImageRequest> request)
+{
+    const auto& response_adaptor = pimpl_->client.call("simGetExternalImages", RpcLibAdapatorsBase::ImageRequest::from(request)).as<vector<RpcLibAdapatorsBase::ImageResponse>>();
+    return RpcLibAdapatorsBase::ImageResponse::to(response_adaptor);
+}
+
+vector<uint8_t> RpcLibClientBase::simGetExternalImage(const std::string& camera_name, ImageCaptureBase::ImageType type)
+{
+    vector<uint8_t> result = pimpl_->client.call("simGetExternalImage", camera_name, type).as<vector<uint8_t>>();
+    if (result.size() == 1) {
+        // rpclib has a bug with serializing empty vectors, so we return a 1 byte vector instead.
+        result.clear();
+    }
+    return result;
+}
+
 vector<MeshPositionVertexBuffersResponse> RpcLibClientBase::simGetMeshPositionVertexBuffers()
 {
     const auto& response_adaptor = pimpl_->client.call("simGetMeshPositionVertexBuffers").as<vector<RpcLibAdapatorsBase::MeshPositionVertexBuffersResponse>>();

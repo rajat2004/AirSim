@@ -97,6 +97,8 @@ public:
 
     vector<ImageCaptureBase::ImageResponse> simGetImages(vector<ImageCaptureBase::ImageRequest> request, const std::string& vehicle_name = "");
     vector<uint8_t> simGetImage(const std::string& camera_name, ImageCaptureBase::ImageType type, const std::string& vehicle_name = "");
+    vector<ImageCaptureBase::ImageResponse> simGetExternalImages(vector<ImageCaptureBase::ImageRequest> request);
+    vector<uint8_t> simGetExternalImage(const std::string& camera_name, ImageCaptureBase::ImageType type);
 
     vector<MeshPositionVertexBuffersResponse> simGetMeshPositionVertexBuffers();
 

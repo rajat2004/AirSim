@@ -5,6 +5,7 @@
 #include "Engine/DirectionalLight.h"
 #include "GameFramework/Actor.h"
 #include "ParticleDefinitions.h"
+#include "UnrealImageCapture.h"
 
 #include <string>
 #include "CameraDirector.h"
@@ -23,7 +24,9 @@ UCLASS()
 class AIRSIM_API ASimModeBase : public AActor
 {
 public:
-
+	//types
+	typedef msr::airlib::ImageCaptureBase ImageCaptureBase;
+	
     GENERATED_BODY()
 
     UPROPERTY(BlueprintAssignable, BlueprintCallable)
@@ -108,6 +111,11 @@ public:
             static_cast<const ASimModeBase*>(this)->getCamera(camera_name, vehicle_name, external));
     } 
 
+    //image APIs
+    std::vector<ASimModeBase::ImageCaptureBase::ImageResponse> getExternalImages(const std::vector<ImageCaptureBase::ImageRequest>& requests) const;
+    std::vector<uint8_t> getExternalImage(const std::string& camera_name, ImageCaptureBase::ImageType image_type) const;
+    const UnrealImageCapture* getExternalImageCapture() const;
+
     TMap<FString, FAssetData> asset_map;
     TMap<FString, AActor*> scene_object_map;
 
@@ -182,7 +190,6 @@ private:
     msr::airlib::StateReporterWrapper debug_reporter_;
 
     std::vector<std::unique_ptr<msr::airlib::VehicleSimApiBase>> vehicle_sim_apis_;
-    common_utils::UniqueValueMap<std::string, APIPCamera*> external_cameras_;
 
     UPROPERTY()
         TArray<AActor*> spawned_actors_; //keep refs alive from Unreal GC
@@ -190,6 +197,11 @@ private:
     bool lidar_checks_done_ = false; 
     bool lidar_draw_debug_points_ = false;
     static ASimModeBase* SIMMODE;
+
+    //Image API
+    common_utils::UniqueValueMap<std::string, APIPCamera*> external_cameras_;
+    std::unique_ptr<UnrealImageCapture> external_image_capture_;
+
 private:
     void setStencilIDs();
     void initializeTimeOfDay();

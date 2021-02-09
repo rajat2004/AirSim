@@ -506,6 +506,32 @@ const APIPCamera* ASimModeBase::getCamera(const std::string& camera_name, const 
         return getVehicleSimApi(vehicle_name)->getCamera(camera_name);
 }
 
+std::vector<ASimModeBase::ImageCaptureBase::ImageResponse> ASimModeBase::getExternalImages(const std::vector<ImageCaptureBase::ImageRequest>& requests) const
+{
+    std::vector<ImageCaptureBase::ImageResponse> responses;
+
+    const ImageCaptureBase* camera = getExternalImageCapture();
+    camera->getImages(requests, responses);
+
+    return responses;
+}
+
+std::vector<uint8_t> ASimModeBase::getExternalImage(const std::string& camera_name, ImageCaptureBase::ImageType image_type) const
+{
+    std::vector<ImageCaptureBase::ImageRequest> request = { ImageCaptureBase::ImageRequest(camera_name, image_type) };
+    const std::vector<ImageCaptureBase::ImageResponse>& response = getExternalImages(request);
+
+    if (response.size() > 0)
+        return response.at(0).image_data_uint8;
+    else
+        return std::vector<uint8_t>();
+}
+
+const UnrealImageCapture* ASimModeBase::getExternalImageCapture() const
+{
+    return external_image_capture_.get();
+}
+
 //API server start/stop
 void ASimModeBase::startApiServer()
 {
@@ -667,6 +693,7 @@ void ASimModeBase::setupVehiclesAndCamera()
 
     // Create External Cameras
     initializeExternalCameras();
+    external_image_capture_.reset(new UnrealImageCapture(&external_cameras_));
 
     if (getApiProvider()->hasDefaultVehicle()) {
         //TODO: better handle no FPV vehicles scenario

@@ -559,6 +559,19 @@ void WorldSimApi::setWind(const Vector3r& wind) const
     simmode_->setWind(wind);
 }
 
+//Image APIs
+std::vector<WorldSimApi::ImageCaptureBase::ImageResponse> WorldSimApi::getExternalImages(const vector<ImageCaptureBase::ImageRequest>& requests) const
+{
+    std::vector<ImageCaptureBase::ImageResponse> responses = simmode_->getExternalImages(requests);
+    return responses;	
+}
+
+vector<uint8_t> WorldSimApi::getExternalImage(const std::string& camera_name, ImageCaptureBase::ImageType image_type) const
+{
+    std::vector<uint8_t> outputImg = simmode_->getExternalImage(camera_name, image_type);
+    return outputImg;	
+}
+
 CameraInfo WorldSimApi::getCameraInfo(const std::string& camera_name, const std::string& vehicle_name, bool external) const
 {
     CameraInfo info;
