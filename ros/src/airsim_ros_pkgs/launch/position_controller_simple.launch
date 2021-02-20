@@ -15,6 +15,7 @@
 
         <param name="reached_thresh_xyz" type="double" value="0.1" />
         <param name="reached_yaw_degrees" type="double" value="5.0" />
+        <param name="vehicle_name" type="string" value="" />
     </node>
 
 </launch>

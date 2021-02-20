@@ -143,6 +143,8 @@ private:
     ros::ServiceServer gps_goal_override_srvr_;
 
     ros::Timer update_control_cmd_timer_;
+
+    string vehicle_name;
 };
 
 #endif /* _PID_POSITION_CONTROLLER_SIMPLE_ */
