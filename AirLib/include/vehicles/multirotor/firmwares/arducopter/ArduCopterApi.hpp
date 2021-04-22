@@ -116,9 +116,8 @@ public: //TODO:MultirotorApiBase implementation
 
     virtual void setSimulatedGroundTruth(const Kinematics::State* kinematics, const Environment* environment) override
     {
-        Utils::log("Not Implemented: setSimulatedGroundTruth", Utils::kLogLevelInfo);
-        unused(kinematics);
-        unused(environment);
+        ground_truth_kinematics_state_ = kinematics;
+        ground_truth_environment_ = environment;
     }
 
     virtual bool setRCData(const RCData& rc_data) override
@@ -341,6 +340,14 @@ private:
 
         std::ostringstream oss;
 
+        auto addVelocityDataToStream = [&oss](const Vector3r& velocity) {
+            oss << ","
+                << "\"velocity\": {"
+                << "\"world_linear_velocity\": [" 
+                << std::setprecision(12)
+                << velocity[0] << "," << velocity[1] << "," << velocity[2] << "]}";
+        };
+
         const uint count_gps_sensors = sensors_->size(SensorBase::SensorType::Gps);
         if (count_gps_sensors != 0) {
             const auto& gps_output = getGpsData("");
@@ -351,15 +358,21 @@ private:
                 << "\"lat\": " << gps_output.gnss.geo_point.latitude << ","
                 << "\"lon\": " << gps_output.gnss.geo_point.longitude << ","
                 << std::setprecision(3) << "\"alt\": " << gps_output.gnss.geo_point.altitude
-                << "},"
+                << "}";
 
-                << "\"velocity\": {"
+                addVelocityDataToStream(gps_output.gnss.velocity);
+        }
+        else {
+            // If no GPS, then send the local NED position
+            const Vector3r& position = ground_truth_kinematics_state_->pose.position;
+            oss << ","
+                << "\"position\": ["
                 << std::setprecision(12)
-                << "\"world_linear_velocity\": [" 
-                << gps_output.gnss.velocity[0] << ","
-                << gps_output.gnss.velocity[1] << ","
-                << gps_output.gnss.velocity[2] << "]"
-                "}";
+                << position[0] << ","
+                << position[1] << ","
+                << position[2] << "]";
+
+            addVelocityDataToStream(ground_truth_kinematics_state_->twist.linear);
         }
 
 
@@ -516,6 +529,8 @@ private:
     const std::string& ip_;
     const SensorCollection* sensors_;
     const MultiRotorParams* vehicle_params_;
+    const Kinematics::State* ground_truth_kinematics_state_;
+    const Environment* ground_truth_environment_;
 
     MultirotorApiParams safety_params_;
 
