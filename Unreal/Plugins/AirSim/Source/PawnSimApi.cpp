@@ -67,6 +67,8 @@ void PawnSimApi::setStartPosition(const FVector& position, const FRotator& rotat
     Vector3r nedWrtOrigin = ned_transform_.toGlobalNed(initial_state_.start_location);
     home_geo_point_ = msr::airlib::EarthUtils::nedToGeodetic(nedWrtOrigin, 
         AirSimSettings::singleton().origin_geopoint);
+    // msr::airlib::GeodeticConverter geodetic_converter(AirSimSettings::singleton().origin_geopoint);
+    // geodetic_converter.ned2Geodetic(nedWrtOrigin, home_geo_point_);
 }
 
 void PawnSimApi::pawnTick(float dt)
