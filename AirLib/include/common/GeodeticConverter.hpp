@@ -41,7 +41,7 @@ class GeodeticConverter
     geodetic2Ecef(home_latitude_, home_longitude_, home_altitude_, &home_ecef_x_, &home_ecef_y_, &home_ecef_z_);
 
     // Compute ECEF to NED and NED to ECEF matrices
-    double phiP = atan2(home_ecef_z_, sqrt(pow(home_ecef_x_, 2) + pow(home_ecef_y_, 2)));
+    // double phiP = atan2(home_ecef_z_, sqrt(pow(home_ecef_x_, 2) + pow(home_ecef_y_, 2)));
 
     ecef_to_ned_matrix_ = nRe(home_latitude_rad_, home_longitude_rad_);
     // ned_to_ecef_matrix_ = nRe(home_latitude_rad_, home_longitude_rad_).transpose();

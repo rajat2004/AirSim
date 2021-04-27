@@ -594,10 +594,10 @@ std::unique_ptr<PawnSimApi> ASimModeBase::createVehicleApi(APawn* vehicle_pawn)
     //create vehicle sim api
     const auto& ned_transform = getGlobalNedTransform();
     const auto& pawn_ned_pos = ned_transform.toLocalNed(vehicle_pawn->GetActorLocation());
-    const auto& home_geopoint = msr::airlib::EarthUtils::nedToGeodetic(pawn_ned_pos, getSettings().origin_geopoint);
-    // msr::airlib::GeoPoint home_geopoint;
-    // msr::airlib::GeodeticConverter geodetic_converter(getSettings().origin_geopoint);
-    // geodetic_converter.ned2Geodetic(pawn_ned_pos, home_geopoint);
+    // const auto& home_geopoint = msr::airlib::EarthUtils::nedToGeodetic(pawn_ned_pos, getSettings().origin_geopoint);
+    msr::airlib::GeoPoint home_geopoint;
+    msr::airlib::GeodeticConverter geodetic_converter(getSettings().origin_geopoint);
+    geodetic_converter.ned2Geodetic(pawn_ned_pos, home_geopoint);
     
     const std::string vehicle_name( TCHAR_TO_UTF8(*(vehicle_pawn->GetName())) );
 

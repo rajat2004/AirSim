@@ -103,8 +103,8 @@ protected:
 private:
     void updateState(State& state)
     {
-        state.geo_point = EarthUtils::nedToGeodetic(state.position, home_geo_point_);
-        // geodetic_converter_.ned2Geodetic(state.position, state.geo_point);
+        // state.geo_point = EarthUtils::nedToGeodetic(state.position, home_geo_point_);
+        geodetic_converter_.ned2Geodetic(state.position, state.geo_point);
 
         real_T geo_pot = EarthUtils::getGeopotential(state.geo_point.altitude / 1000.0f);
         state.temperature = EarthUtils::getStandardTemperature(geo_pot);
