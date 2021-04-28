@@ -1,3 +1,6 @@
+#ifndef AIRSIM_SETTINGS_PARSER_H
+#define AIRSIM_SETTINGS_PARSER_H
+
 #include "common/common_utils/StrictMode.hpp"
 STRICT_MODE_OFF
 #ifndef RPCLIB_MSGPACK
@@ -33,3 +36,5 @@ private:
     std::string settings_text_;
     std::string host_ip_;
 };
+
+#endif // AIRSIM_SETTINGS_PARSER_H
