@@ -9,11 +9,9 @@ STRICT_MODE_OFF
 #include "rpc/rpc_error.h"
 STRICT_MODE_ON
 
-#include "vehicles/multirotor/api/MultirotorRpcLibClient.hpp"
-#include "common/common_utils/FileSystem.hpp"
-#include <iostream>
-#include <chrono>
 #include "common/AirSimSettings.hpp"
+#include "common/common_utils/FileSystem.hpp"
+#include "vehicles/multirotor/api/MultirotorRpcLibClient.hpp"
 
 // a minimal airsim settings parser, adapted from Unreal/Plugins/AirSim/SimHUD/SimHUD.h
 class AirSimSettingsParser
