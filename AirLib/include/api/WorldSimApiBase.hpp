@@ -87,7 +87,7 @@ namespace airlib
         virtual std::string getSettingsString() const = 0;
 
         // Image APIs
-        virtual CameraInfo getCameraInfo(const std::string& camera_name, const std::string& vehicle_name = "", bool external=false) const = 0;
+        virtual CameraInfo getCameraInfo(const std::string& camera_name, const std::string& vehicle_name = "", bool external = false) const = 0;
         virtual void setCameraPose(const std::string& camera_name, const msr::airlib::Pose& pose,
                                    const std::string& vehicle_name = "", bool external = false) = 0;
         virtual void setCameraFoV(const std::string& camera_name, float fov_degrees,
@@ -95,12 +95,12 @@ namespace airlib
         virtual void setDistortionParam(const std::string& camera_name, const std::string& param_name, float value,
                                         const std::string& vehicle_name = "", bool external = false) = 0;
         virtual std::vector<float> getDistortionParams(const std::string& camera_name, const std::string& vehicle_name = "",
-                                                        bool external = false) const = 0;
+                                                       bool external = false) const = 0;
 
         virtual std::vector<ImageCaptureBase::ImageResponse> getImages(const std::vector<ImageCaptureBase::ImageRequest>& requests,
-            const std::string& vehicle_name = "", bool external = false) const = 0;
+                                                                       const std::string& vehicle_name = "", bool external = false) const = 0;
         virtual std::vector<uint8_t> getImage(const std::string& camera_name, ImageCaptureBase::ImageType image_type,
-            const std::string& vehicle_name = "", bool external = false) const = 0;
+                                              const std::string& vehicle_name = "", bool external = false) const = 0;
     };
 }
 } //namespace

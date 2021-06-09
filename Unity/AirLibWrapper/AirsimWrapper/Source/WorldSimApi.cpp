@@ -256,7 +256,7 @@ msr::airlib::CameraInfo WorldSimApi::getCameraInfo(const std::string& camera_nam
 }
 
 void WorldSimApi::setCameraPose(const std::string& camera_name, const msr::airlib::Pose& pose,
-                               const std::string& vehicle_name, bool external)
+                                const std::string& vehicle_name, bool external)
 {
     if (external)
         throw std::invalid_argument(common_utils::Utils::stringf("external field is not supported on Unity Image APIs").c_str());
@@ -274,7 +274,7 @@ void WorldSimApi::setCameraFoV(const std::string& camera_name, float fov_degrees
 }
 
 void WorldSimApi::setDistortionParam(const std::string& camera_name, const std::string& param_name, float value,
-                                    const std::string& vehicle_name, bool external)
+                                     const std::string& vehicle_name, bool external)
 {
     throw std::invalid_argument(common_utils::Utils::stringf("setDistortionParam is not supported on unity").c_str());
 }
@@ -297,7 +297,7 @@ std::vector<WorldSimApi::ImageCaptureBase::ImageResponse> WorldSimApi::getImages
 }
 
 std::vector<uint8_t> WorldSimApi::getImage(const std::string& camera_name, ImageCaptureBase::ImageType image_type,
-    const std::string& vehicle_name, bool external) const
+                                           const std::string& vehicle_name, bool external) const
 {
     std::vector<ImageCaptureBase::ImageRequest> request{ ImageCaptureBase::ImageRequest(camera_name, image_type) };
     const auto& response = getImages(request);

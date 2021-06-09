@@ -84,12 +84,12 @@ public:
     virtual void setDistortionParam(const std::string& camera_name, const std::string& param_name, float value,
                                     const std::string& vehicle_name = "", bool external = false) override;
     virtual std::vector<float> getDistortionParams(const std::string& camera_name, const std::string& vehicle_name = "",
-                                                    bool external = false) const override;
+                                                   bool external = false) const override;
 
     virtual std::vector<ImageCaptureBase::ImageResponse> getImages(const std::vector<ImageCaptureBase::ImageRequest>& requests,
-        const std::string& vehicle_name = "", bool external = false) const override;
+                                                                   const std::string& vehicle_name = "", bool external = false) const override;
     virtual std::vector<uint8_t> getImage(const std::string& camera_name, ImageCaptureBase::ImageType image_type,
-        const std::string& vehicle_name = "", bool external = false) const override;
+                                          const std::string& vehicle_name = "", bool external = false) const override;
 
 private:
     AActor* createNewActor(const FActorSpawnParameters& spawn_params, const FTransform& actor_transform, const Vector3r& scale, UStaticMesh* static_mesh);
