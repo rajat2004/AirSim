@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>airsim.client &mdash; airsim 1.2.8 documentation</title>
+  <title>airsim.client &mdash; airsim 1.5.0 documentation</title>
   
 
   
@@ -62,6 +62,10 @@
 
           
             
+            
+              <div class="version">
+                1.5.0
+              </div>
             
           
 
@@ -558,6 +562,18 @@
 <span class="sd">            list[str]: List containing all the names</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s1">&#39;simListSceneObjects&#39;</span><span class="p">,</span> <span class="n">name_regex</span><span class="p">)</span></div>
+        
+<div class="viewcode-block" id="VehicleClient.simLoadLevel"><a class="viewcode-back" href="../../index.html#airsim.client.VehicleClient.simLoadLevel">[docs]</a>    <span class="k">def</span> <span class="nf">simLoadLevel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Loads a level specified by its name</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            level_name (str): Name of the level to load</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the level was successfully loaded</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s1">&#39;simLoadLevel&#39;</span><span class="p">,</span> <span class="n">level_name</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="VehicleClient.simSpawnObject"><a class="viewcode-back" href="../../index.html#airsim.client.VehicleClient.simSpawnObject">[docs]</a>    <span class="k">def</span> <span class="nf">simSpawnObject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_name</span><span class="p">,</span> <span class="n">asset_name</span><span class="p">,</span> <span class="n">pose</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">physics_enabled</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Spawned selected object in the world</span>
@@ -612,6 +628,60 @@
 <span class="sd">            mesh_name (str): Name of the mesh to get the ID of</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s1">&#39;simGetSegmentationObjectID&#39;</span><span class="p">,</span> <span class="n">mesh_name</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="VehicleClient.simAddDetectionFilterMeshName"><a class="viewcode-back" href="../../index.html#airsim.client.VehicleClient.simAddDetectionFilterMeshName">[docs]</a>    <span class="k">def</span> <span class="nf">simAddDetectionFilterMeshName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">camera_name</span><span class="p">,</span> <span class="n">image_type</span><span class="p">,</span> <span class="n">mesh_name</span><span class="p">,</span> <span class="n">vehicle_name</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add mesh name to detect in wild card format</span>
+
+<span class="sd">        For example: simAddDetectionFilterMeshName(&quot;Car_*&quot;) will detect all instance named &quot;Car_*&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            camera_name (str): Name of the camera, for backwards compatibility, ID numbers such as 0,1,etc. can also be used</span>
+<span class="sd">            image_type (ImageType): Type of image required</span>
+<span class="sd">            mesh_name (str): mesh name in wild card format</span>
+<span class="sd">            vehicle_name (str, optional): Vehicle which the camera is associated with</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s1">&#39;simAddDetectionFilterMeshName&#39;</span><span class="p">,</span> <span class="n">camera_name</span><span class="p">,</span> <span class="n">image_type</span><span class="p">,</span> <span class="n">mesh_name</span><span class="p">,</span> <span class="n">vehicle_name</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="VehicleClient.simSetDetectionFilterRadius"><a class="viewcode-back" href="../../index.html#airsim.client.VehicleClient.simSetDetectionFilterRadius">[docs]</a>    <span class="k">def</span> <span class="nf">simSetDetectionFilterRadius</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">camera_name</span><span class="p">,</span> <span class="n">image_type</span><span class="p">,</span> <span class="n">radius_cm</span><span class="p">,</span> <span class="n">vehicle_name</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set detection radius for all cameras</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            camera_name (str): Name of the camera, for backwards compatibility, ID numbers such as 0,1,etc. can also be used</span>
+<span class="sd">            image_type (ImageType): Type of image required</span>
+<span class="sd">            radius_cm (int): Radius in [cm]</span>
+<span class="sd">            vehicle_name (str, optional): Vehicle which the camera is associated with</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s1">&#39;simSetDetectionFilterRadius&#39;</span><span class="p">,</span> <span class="n">camera_name</span><span class="p">,</span> <span class="n">image_type</span><span class="p">,</span> <span class="n">radius_cm</span><span class="p">,</span> <span class="n">vehicle_name</span><span class="p">)</span></div>
+     
+<div class="viewcode-block" id="VehicleClient.simClearDetectionMeshNames"><a class="viewcode-back" href="../../index.html#airsim.client.VehicleClient.simClearDetectionMeshNames">[docs]</a>    <span class="k">def</span> <span class="nf">simClearDetectionMeshNames</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">camera_name</span><span class="p">,</span> <span class="n">image_type</span><span class="p">,</span> <span class="n">vehicle_name</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Clear all mesh names from detection filter</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            camera_name (str): Name of the camera, for backwards compatibility, ID numbers such as 0,1,etc. can also be used</span>
+<span class="sd">            image_type (ImageType): Type of image required</span>
+<span class="sd">            vehicle_name (str, optional): Vehicle which the camera is associated with</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s1">&#39;simClearDetectionMeshNames&#39;</span><span class="p">,</span> <span class="n">camera_name</span><span class="p">,</span> <span class="n">image_type</span><span class="p">,</span> <span class="n">vehicle_name</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="VehicleClient.simGetDetections"><a class="viewcode-back" href="../../index.html#airsim.client.VehicleClient.simGetDetections">[docs]</a>    <span class="k">def</span> <span class="nf">simGetDetections</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">camera_name</span><span class="p">,</span> <span class="n">image_type</span><span class="p">,</span> <span class="n">vehicle_name</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get current detections</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            camera_name (str): Name of the camera, for backwards compatibility, ID numbers such as 0,1,etc. can also be used</span>
+<span class="sd">            image_type (ImageType): Type of image required</span>
+<span class="sd">            vehicle_name (str, optional): Vehicle which the camera is associated with</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DetectionInfo array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">responses_raw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s1">&#39;simGetDetections&#39;</span><span class="p">,</span> <span class="n">camera_name</span><span class="p">,</span> <span class="n">image_type</span><span class="p">,</span> <span class="n">vehicle_name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">DetectionInfo</span><span class="o">.</span><span class="n">from_msgpack</span><span class="p">(</span><span class="n">response_raw</span><span class="p">)</span> <span class="k">for</span> <span class="n">response_raw</span> <span class="ow">in</span> <span class="n">responses_raw</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="VehicleClient.simPrintLogMessage"><a class="viewcode-back" href="../../index.html#airsim.client.VehicleClient.simPrintLogMessage">[docs]</a>    <span class="k">def</span> <span class="nf">simPrintLogMessage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">message_param</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">severity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
