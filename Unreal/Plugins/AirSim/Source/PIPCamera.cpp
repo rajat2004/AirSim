@@ -463,33 +463,35 @@ void APIPCamera::setNoiseMaterial(int image_type, UObject* outer, FPostProcessSe
     obj.AddBlendable(noise_material, 1.0f);
 }
 
-void APIPCamera::enableCaptureComponent(const APIPCamera::ImageType type, bool is_enabled)
+void APIPCamera::enableCaptureComponent(const APIPCamera::ImageType type, bool enable)
 {
     USceneCaptureComponent2D* capture = getCaptureComponent(type, false);
-    if (capture != nullptr) {
+    if (IsValid(capture)) {
         UDetectionComponent* detection = getDetectionComponent(type, false);
-        if (is_enabled) {
+        if (enable) {
             //do not make unnecessary calls to Activate() which otherwise causes crash in Unreal
-            if (!capture->IsActive() || capture->TextureTarget == nullptr) {
+            // if (!capture->IsActive() || capture->TextureTarget == nullptr) {
+            if (!capture->IsActive() || !IsValid(capture->TextureTarget)) {
                 capture->TextureTarget = getRenderTarget(type, false);
                 capture->Activate();
-                if (detection != nullptr) {
+                if (IsValid(detection)) {
                     detection->texture_target_ = capture->TextureTarget;
                     detection->Activate();
                 }
             }
         }
         else {
-            if (capture->IsActive() || capture->TextureTarget != nullptr) {
+            // if (capture->IsActive() || capture->TextureTarget != nullptr) {
+            if (capture->IsActive() || IsValid(capture->TextureTarget)) {
                 capture->Deactivate();
                 capture->TextureTarget = nullptr;
-                if (detection != nullptr) {
+                if (IsValid(detection)) {
                     detection->Deactivate();
                     detection->texture_target_ = nullptr;
                 }
             }
         }
-        camera_type_enabled_[Utils::toNumeric(type)] = is_enabled;
+        camera_type_enabled_[Utils::toNumeric(type)] = enable;
     }
     //else nothing to enable
 }

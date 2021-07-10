@@ -93,7 +93,7 @@ private: //methods
     typedef AirSimSettings::NoiseSetting NoiseSetting;
 
     static unsigned int imageTypeCount();
-    void enableCaptureComponent(const ImageType type, bool is_enabled);
+    void enableCaptureComponent(const ImageType type, bool enable);
     static void updateCaptureComponentSetting(USceneCaptureComponent2D* capture, UTextureRenderTarget2D* render_target,
                                               bool auto_format, const EPixelFormat& pixel_format, const CaptureSetting& setting, const NedTransform& ned_transform,
                                               bool force_linear_gamma);
